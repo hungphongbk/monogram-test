@@ -1,7 +1,10 @@
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import type {AppProps} from 'next/app'
+import initAuth from "../src/initAuth";
 
-function MyApp({ Component, pageProps }: AppProps) {
+initAuth()
+
+function MyApp({Component, pageProps}: AppProps) {
   return <Component {...pageProps} />
 }
 

@@ -1,9 +1,7 @@
-import mongoose from "mongoose"
+import {PrismaClient} from '@prisma/client'
 
-const {DATABASE_URL} = process.env
+const prisma = new PrismaClient()
 
 export const connect = async () => {
-  return await mongoose
-    .connect(DATABASE_URL as string)
-    .catch(err => console.log(err))
+  return await prisma.$connect()
 }

@@ -1,0 +1,8 @@
+.Container {
+  @apply flex items-center justify-center h-full flex-col;
+}
+
+.SignInButton {
+  @apply flex-1 whitespace-nowrap bg-white hover:bg-slate-50;
+  color: #818D9F;
+}

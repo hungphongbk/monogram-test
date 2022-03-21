@@ -4,10 +4,11 @@ import {
   withAuthUserTokenSSR,
 } from "next-firebase-auth";
 import Button from "../src/components/button";
+import styles from "../styles/Login.module.scss";
 
 function LoginPage() {
   return (
-    <div className={"flex items-center justify-center h-full flex-col"}>
+    <div className={styles.Container}>
       <svg
         width="106"
         height="95"
@@ -25,12 +26,8 @@ function LoginPage() {
         />
       </svg>
       <div className="flex gap-3">
-        <Button className="flex-1 whitespace-nowrap">
-          Sign In With Google
-        </Button>
-        <Button className="flex-1 whitespace-nowrap">
-          Sign In With Microsoft
-        </Button>
+        <Button className={styles.SignInButton}>Sign In With Google</Button>
+        <Button className={styles.SignInButton}>Sign In With Microsoft</Button>
       </div>
     </div>
   );

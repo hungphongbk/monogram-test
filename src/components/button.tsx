@@ -1,12 +1,13 @@
-import { PropsWithChildren } from "react";
+import { HTMLProps, PropsWithChildren } from "react";
 import clsx from "clsx";
 
 type ButtonProps = PropsWithChildren<{
   className?: string;
   disabled?: boolean;
-}>;
+}> &
+  Pick<HTMLProps<HTMLButtonElement>, "onClick">;
 export default function Button(props: ButtonProps): JSX.Element {
-  const { className, disabled, children } = props;
+  const { className, disabled, children, ...others } = props;
   return (
     <button
       disabled={disabled}
@@ -14,6 +15,7 @@ export default function Button(props: ButtonProps): JSX.Element {
         "border border-gray-300 rounded-md flex items-center justify-center p-2.5",
         className
       )}
+      {...others}
     >
       {children}
     </button>

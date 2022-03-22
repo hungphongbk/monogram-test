@@ -5,8 +5,19 @@ import {
 } from "next-firebase-auth";
 import Button from "../src/components/button";
 import styles from "../styles/Login.module.scss";
+import { MutableRefObject, useEffect, useRef } from "react";
+import { UserCredential } from "@firebase/auth";
+
+type Cb = () => Promise<UserCredential>;
 
 function LoginPage() {
+  const googleSignInRef = useRef() as MutableRefObject<Cb | undefined>;
+  useEffect(() => {
+    if (typeof window !== "undefined")
+      import("../src/firebase/auth").then(
+        (module) => (googleSignInRef.current = module.googleSignIn)
+      );
+  }, []);
   return (
     <div className={styles.Container}>
       <svg
@@ -26,7 +37,13 @@ function LoginPage() {
         />
       </svg>
       <div className="flex gap-3">
-        <Button className={styles.SignInButton}>Sign In With Google</Button>
+        <Button
+          className={styles.SignInButton}
+          disabled={typeof googleSignInRef.current === "undefined"}
+          onClick={googleSignInRef.current}
+        >
+          Sign In With Google
+        </Button>
         <Button className={styles.SignInButton}>Sign In With Microsoft</Button>
       </div>
     </div>

@@ -1,0 +1,7 @@
+.Container {
+  @apply flex mt-8 gap-2.5;
+}
+
+.Inner {
+  @apply flex flex-col items-end flex-1 gap-4;
+}

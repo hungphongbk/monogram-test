@@ -6,12 +6,19 @@ import {
 import mainLayout from "../src/layout/main";
 import { afterLogin } from "../src/utils/ssr";
 import PostTweet from "../src/components/post-tweet";
+import styles from "../styles/Home.module.scss";
+import FollowOthers from "../src/components/follow-others";
 
 const Home = () => {
   return (
     <>
       <h1 className="text-2xl font-extrabold text-gray-700">Your feed</h1>
-      <PostTweet />
+      <div className={styles.Main}>
+        <div>
+          <PostTweet />
+        </div>
+        <FollowOthers />
+      </div>
     </>
   );
 };

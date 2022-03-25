@@ -23,4 +23,7 @@ model User {
   createdAt     DateTime  @default(now())
   idToken       String   @unique
   posts         Post[]
+
+  followedBy    User[]  @relation("UserFollows", references: [id])
+  following     User[]  @relation("UserFollows", references: [id])
 }

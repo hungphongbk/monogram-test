@@ -16,9 +16,19 @@ export const afterLogin: SSRPropGetter = async ({ AuthUser }) => {
         name: AuthUser.email!.split("@")[0],
         email: AuthUser.email!,
         image: AuthUser.photoURL,
+        idToken: (await AuthUser.getIdToken())!,
       },
     });
-  console.log(dbUser);
+  else {
+    dbUser = await prisma.user.update({
+      where: {
+        id: dbUser.id,
+      },
+      data: {
+        idToken: (await AuthUser.getIdToken())!,
+      },
+    });
+  }
 
   return {
     props: {

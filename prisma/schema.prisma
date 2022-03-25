@@ -1,30 +1,26 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["mongoDb"]
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Post {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
+  id        Int      @id @default(autoincrement())
   content   String?
-  published Boolean @default(false)
   author    User?   @relation(fields: [authorId], references: [id])
   authorId  Int?
 }
 
 model User {
-  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  id            Int      @id @default(autoincrement())
   displayName   String?
   name          String
   email         String   @unique
   image         String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  createdAt     DateTime  @default(now())
+  idToken       String   @unique
   posts         Post[]
-  @@map(name: "users")
 }

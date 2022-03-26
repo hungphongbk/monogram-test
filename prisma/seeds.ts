@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { users } from "./seeds/users";
+import { omit } from "lodash";
 
 const prisma = new PrismaClient();
 
@@ -8,7 +9,7 @@ async function main() {
     users.map((u) =>
       prisma.user.upsert({
         where: { email: u.email },
-        update: {},
+        update: omit(u, ["email"]),
         create: u,
       })
     )

@@ -4,7 +4,7 @@ import TextArea from "./text-area";
 import Button from "./button";
 import styles from "./post-tweet.module.scss";
 import { Prisma } from "@prisma/client";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const fetcher = (content: Prisma.PostCreateInput, token: string) =>
   fetch("/api/post", {
@@ -16,10 +16,21 @@ const fetcher = (content: Prisma.PostCreateInput, token: string) =>
     body: JSON.stringify(content),
   }).then((res) => res.json());
 
-type PostTweetProps = {};
+type PostTweetProps = {
+  onPosted: () => Promise<void>;
+};
 export default function PostTweet(props: PostTweetProps): JSX.Element {
   const user = useAuthContext(),
-    [content, setContent] = useState("");
+    [content, setContent] = useState(""),
+    handlePosted = useCallback(async () => {
+      await fetcher(
+        {
+          content,
+        },
+        user.idToken
+      );
+      await props.onPosted();
+    }, [content, props, user.idToken]);
 
   return (
     <div className={styles.Container}>
@@ -34,18 +45,7 @@ export default function PostTweet(props: PostTweetProps): JSX.Element {
           // @ts-ignore
           onChange={(e) => setContent(e.target.value)}
         />
-        <Button
-          variant={"contained"}
-          size={"large"}
-          onClick={async () => {
-            await fetcher(
-              {
-                content: "foo",
-              },
-              user.idToken
-            );
-          }}
-        >
+        <Button variant={"contained"} size={"large"} onClick={handlePosted}>
           Send mweet
         </Button>
       </div>

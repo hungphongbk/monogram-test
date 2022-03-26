@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../../../src/utils/db";
 
-const prisma = new PrismaClient();
 export default async function listOthers(
   req: NextApiRequest,
   res: NextApiResponse

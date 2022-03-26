@@ -1,8 +1,7 @@
 import { SSRPropGetter } from "next-firebase-auth";
-import { PrismaClient } from "@prisma/client";
 import { omit } from "lodash";
+import { prisma } from "./db";
 
-const prisma = new PrismaClient();
 export const afterLogin: SSRPropGetter = async ({ AuthUser }) => {
   // Optionally, get other props.
   let dbUser;

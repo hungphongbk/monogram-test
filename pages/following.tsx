@@ -6,7 +6,13 @@ import {
 } from "next-firebase-auth";
 
 const FollowingPage = () => {
-  return <div></div>;
+  return (
+    <>
+      <h1 className="text-2xl font-extrabold text-gray-700">
+        People you follow
+      </h1>
+    </>
+  );
 };
 
 FollowingPage.getLayout = mainLayout;

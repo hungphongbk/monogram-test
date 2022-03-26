@@ -34,7 +34,7 @@ const Home = () => {
           <div className="flex gap-6 flex-col">
             {data?.map((post) => (
               <div key={post.id} className="flex gap-3">
-                <Avatar src={post.author.image!} />
+                <Avatar src={post.author.image!} className="shrink-0" />
                 <div className="flex gap-1 flex-col">
                   <div>
                     <span className="text-sm font-medium mr-1.5">
@@ -44,6 +44,7 @@ const Home = () => {
                       @{post.author.name}
                     </span>
                   </div>
+                  <div className="text-sm text-gray-500">{post.content}</div>
                 </div>
               </div>
             ))}

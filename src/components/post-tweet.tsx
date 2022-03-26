@@ -30,6 +30,7 @@ export default function PostTweet(props: PostTweetProps): JSX.Element {
         user.idToken
       );
       await props.onPosted();
+      setContent("");
     }, [content, props, user.idToken]);
 
   return (

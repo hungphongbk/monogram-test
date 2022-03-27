@@ -100,12 +100,10 @@ export default function Sidebar(props: SidebarProps): JSX.Element {
         <ul className="list-none">
           {menuList.map((menu, index) => (
             <li key={index}>
-              <ActiveLink
-                href={menu.to}
-                activeClassName={styles.ActiveMenuItem}
-              >
+              {menu.to === "#logout" ? (
                 <a
                   className={styles.MenuItem}
+                  href={"javascript:void(0)"}
                   onClick={async () => {
                     if (menu.to === "#logout") await props.user.signOut();
                   }}
@@ -113,7 +111,17 @@ export default function Sidebar(props: SidebarProps): JSX.Element {
                   {menu.icon}
                   <span className="text-gray-600">{menu.text}</span>
                 </a>
-              </ActiveLink>
+              ) : (
+                <ActiveLink
+                  href={menu.to}
+                  activeClassName={styles.ActiveMenuItem}
+                >
+                  <a className={styles.MenuItem}>
+                    {menu.icon}
+                    <span className="text-gray-600">{menu.text}</span>
+                  </a>
+                </ActiveLink>
+              )}
             </li>
           ))}
         </ul>

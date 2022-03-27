@@ -5,7 +5,6 @@ import { prisma } from "./db";
 export const afterLogin: SSRPropGetter = async ({ AuthUser }) => {
   // Optionally, get other props.
   let dbUser;
-  console.log(AuthUser);
   const id = AuthUser.id!;
   dbUser = await prisma.user.findUnique({ where: { id } });
 

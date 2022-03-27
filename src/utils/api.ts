@@ -19,15 +19,23 @@ const withAuthUserTokenAPI: <T extends unknown>(
   ) => void
 ) => (req: NextApiRequest, res: NextApiResponse) => void =
   (handler) => async (req, res) => {
-    const { idToken } = JSON.parse(
-      decodeBase64(req.cookies["mweeter.AuthUserTokens"])
-    );
-    const AuthUser = await verifyIdToken(idToken);
-    const user = await prisma.user.findUnique({
-      where: { id: AuthUser.id! },
-    });
-    (req as AuthenticatedNextApiRequest).User = user!;
-    handler(req, res);
+    try {
+      const decoded = JSON.parse(
+        decodeBase64(req.cookies["mweeter.AuthUserTokens"])
+      );
+      const AuthUser = await verifyIdToken(decoded?.idToken ?? "");
+      if (!AuthUser.id) {
+        return res.status(401).json({});
+      } else {
+        const user = await prisma.user.findUnique({
+          where: { id: AuthUser.id! },
+        });
+        (req as AuthenticatedNextApiRequest).User = user!;
+        handler(req, res);
+      }
+    } catch (e) {
+      return res.status(401).json({});
+    }
   };
 
 export default withAuthUserTokenAPI;

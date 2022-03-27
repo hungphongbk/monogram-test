@@ -18,7 +18,7 @@ type AppPropsWithLayout = AppProps & {
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page),
-    user = pageProps.user as unknown as User | undefined;
+    user = pageProps.profile as unknown as User | undefined;
 
   return (
     <AuthProvider user={user}>

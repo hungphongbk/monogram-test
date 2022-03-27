@@ -1,16 +1,35 @@
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { useAuthContext } from "../utils/authContext";
 import { User } from "@prisma/client";
 import Avatar from "./avatar";
 import Button from "./button";
+import { useCallback } from "react";
 
-const fetcher = (url: string): Promise<User[]> =>
+type UserWithFollow = User & {
+  followByMe: boolean;
+};
+const fetcher = (url: string): Promise<UserWithFollow[]> =>
   fetch(url).then((res) => res.json());
 
 type FollowOthersProps = {};
 export default function FollowOthers(props: FollowOthersProps): JSX.Element {
   const user = useAuthContext();
-  const { data } = useSWR("/api/follow/others", fetcher);
+  const { data } = useSWR("/api/follow/others", fetcher),
+    { mutate } = useSWRConfig();
+
+  const doFollow = useCallback(
+    async (user: UserWithFollow) => {
+      await fetch("/api/follow/do-follow", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: user.id }),
+      });
+      await mutate("/api/follow/others");
+    },
+    [mutate]
+  );
 
   return (
     <div>
@@ -23,8 +42,8 @@ export default function FollowOthers(props: FollowOthersProps): JSX.Element {
               <div className="text-sm font-medium">{u.displayName}</div>
               <div className="text-sm text-gray-500">@{u.name}</div>
             </div>
-            <Button size={"small"} rounded>
-              Follow
+            <Button size={"small"} rounded onClick={() => doFollow(u)}>
+              {u.followByMe ? "Unfollow" : "Follow"}
             </Button>
           </div>
         ))}

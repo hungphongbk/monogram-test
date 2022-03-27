@@ -33,7 +33,7 @@ export const afterLogin: SSRPropGetter = async ({ AuthUser }) => {
 
   return {
     props: {
-      user: omit(dbUser, ["id", "createdAt", "updatedAt"]),
+      profile: omit(dbUser, ["createdAt", "updatedAt"]),
     },
   };
 };

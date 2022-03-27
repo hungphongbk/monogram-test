@@ -4,17 +4,13 @@ import { User } from "@prisma/client";
 import Avatar from "./avatar";
 import Button from "./button";
 
-const fetcher = (url: string, token: string): Promise<User[]> =>
-  fetch(url, {
-    headers: {
-      Authorization: token,
-    },
-  }).then((res) => res.json());
+const fetcher = (url: string): Promise<User[]> =>
+  fetch(url).then((res) => res.json());
 
 type FollowOthersProps = {};
 export default function FollowOthers(props: FollowOthersProps): JSX.Element {
   const user = useAuthContext();
-  const { data } = useSWR(["/api/follow/others", user.idToken], fetcher);
+  const { data } = useSWR("/api/follow/others", fetcher);
 
   return (
     <div>

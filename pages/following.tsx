@@ -1,4 +1,4 @@
-import mainLayout from "../src/layout/main";
+import MainLayout from "../src/layout/main";
 import {
   AuthAction,
   withAuthUser,
@@ -7,15 +7,13 @@ import {
 
 const FollowingPage = () => {
   return (
-    <>
+    <MainLayout>
       <h1 className="text-2xl font-extrabold text-gray-700">
         People you follow
       </h1>
-    </>
+    </MainLayout>
   );
 };
-
-FollowingPage.getLayout = mainLayout;
 
 export const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,

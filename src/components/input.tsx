@@ -1,14 +1,16 @@
-import { HTMLProps, useRef } from "react";
+import { HTMLProps, ReactNode, useRef } from "react";
 import { uniqueId } from "lodash";
 import clsx from "clsx";
 
 type InputProps = {
   inputClassName?: string;
+  label?: ReactNode;
 } & HTMLProps<HTMLInputElement>;
 export default function Input({
   className,
   inputClassName,
   type,
+  label,
   ...props
 }: InputProps): JSX.Element {
   const idRef = useRef(uniqueId("input-")),
@@ -19,9 +21,11 @@ export default function Input({
 
   return (
     <div className={className}>
-      <label htmlFor={idRef.current} className="sr-only">
-        Email address
-      </label>
+      {label && (
+        <label htmlFor={idRef.current} className="mb-1 text-sm text-gray-700">
+          {label}
+        </label>
+      )}
       <input
         id={idRef.current}
         className={calculatedInputClassName}

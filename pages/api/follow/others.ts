@@ -1,18 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import withAuthUserTokenAPI from "../../../src/utils/api";
 import { prisma } from "../../../src/utils/db";
 
-export default async function listOthers(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const user = await prisma.user.findUnique({
-    where: { idToken: req.headers.authorization },
-  });
+export default withAuthUserTokenAPI(async function listOthers(req, res) {
   return res.json(
     await prisma.user.findMany({
       where: {
-        NOT: { id: user!.id },
+        NOT: { id: req.User!.id },
       },
     })
   );
-}
+});

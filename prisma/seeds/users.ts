@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client";
 
 export const users: Prisma.UserCreateInput[] = [
   {
+    id: "1",
     displayName: "Phong Truong Hung",
     email: "51202744@hcmut.edu.vn",
     name: "51202744",
@@ -10,6 +11,7 @@ export const users: Prisma.UserCreateInput[] = [
       "http://dashboards.webkom.co/jquery/airframe/assets/img/avatars/43.jpg",
   },
   {
+    id: "2",
     displayName: "Tri Quang Tran",
     email: "triqutran@gmail.com",
     name: "triqutran",
@@ -18,6 +20,7 @@ export const users: Prisma.UserCreateInput[] = [
       "http://dashboards.webkom.co/jquery/airframe/assets/img/avatars/48.jpg",
   },
   {
+    id: "3",
     displayName: "Trang Thuy Le",
     email: "katniss@gmail.com",
     name: "katniss",

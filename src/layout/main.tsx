@@ -1,11 +1,15 @@
-import { PropsWithChildren, ReactElement } from "react";
+import { PropsWithChildren } from "react";
 import styles from "./main.module.scss";
 import Sidebar from "../components/sidebar";
+import { useAuthUser } from "next-firebase-auth";
 
-function MainLayout({ children }: PropsWithChildren<unknown>): JSX.Element {
+export default function MainLayout({
+  children,
+}: PropsWithChildren<unknown>): JSX.Element {
+  const user = useAuthUser();
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar />
+      <Sidebar user={user} />
       <div className={styles.Content}>
         <main>
           <div className={styles.Main}>{children}</div>
@@ -13,8 +17,4 @@ function MainLayout({ children }: PropsWithChildren<unknown>): JSX.Element {
       </div>
     </div>
   );
-}
-
-export default function mainLayout(page: ReactElement) {
-  return <MainLayout>{page}</MainLayout>;
 }

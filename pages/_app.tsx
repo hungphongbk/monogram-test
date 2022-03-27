@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <AuthProvider user={user}>
-      {getLayout(<Component {...pageProps} />)}
+      <Component {...pageProps} />
     </AuthProvider>
   );
 }

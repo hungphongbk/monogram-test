@@ -3,7 +3,7 @@ import {
   withAuthUser,
   withAuthUserTokenSSR,
 } from "next-firebase-auth";
-import mainLayout from "../src/layout/main";
+import MainLayout from "../src/layout/main";
 import { afterLogin } from "../src/utils/ssr";
 import PostTweet from "../src/components/post-tweet";
 import styles from "../styles/Home.module.scss";
@@ -26,7 +26,7 @@ const Home = () => {
   const { data } = useSWR(["/api/post", user.idToken], fetcher);
   const { mutate } = useSWRConfig();
   return (
-    <>
+    <MainLayout>
       <h1 className="text-2xl font-extrabold text-gray-700">Your feed</h1>
       <div className={styles.Main}>
         <div>
@@ -52,11 +52,9 @@ const Home = () => {
         </div>
         <FollowOthers />
       </div>
-    </>
+    </MainLayout>
   );
 };
-
-Home.getLayout = mainLayout;
 
 export const getServerSideProps = withAuthUserTokenSSR({
   whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,

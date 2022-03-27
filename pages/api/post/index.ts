@@ -1,12 +1,18 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../../src/utils/db";
+import withAuthUserTokenAPI, {
+  AuthenticatedNextApiRequest,
+} from "../../../src/utils/api";
 
-const getIndexPosts = async (req: NextApiRequest, res: NextApiResponse) => {
+const getIndexPosts = async (
+  req: AuthenticatedNextApiRequest,
+  res: NextApiResponse
+) => {
   return res.json(
     await prisma.post.findMany({
       where: {
-        author: { idToken: req.headers.authorization },
+        author: { id: req.User!.id! },
       },
       include: { author: true },
       orderBy: { createdAt: "desc" },
@@ -14,10 +20,13 @@ const getIndexPosts = async (req: NextApiRequest, res: NextApiResponse) => {
   );
 };
 
-const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
+const createPost = async (
+  req: AuthenticatedNextApiRequest,
+  res: NextApiResponse
+) => {
   await prisma.user.update({
     where: {
-      idToken: req.headers.authorization,
+      id: req.User!.id!,
     },
     data: {
       posts: { create: req.body as Prisma.PostCreateInput },
@@ -26,7 +35,7 @@ const createPost = async (req: NextApiRequest, res: NextApiResponse) => {
   return res.json({});
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default withAuthUserTokenAPI(async (req, res) => {
   switch (req.method) {
     case "GET":
       return getIndexPosts(req, res);
@@ -35,4 +44,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     default:
       return res.status(404);
   }
-};
+});

@@ -5,12 +5,14 @@ import { prisma } from "./db";
 export const afterLogin: SSRPropGetter = async ({ AuthUser }) => {
   // Optionally, get other props.
   let dbUser;
-  const email = AuthUser.email!;
-  dbUser = await prisma.user.findUnique({ where: { email } });
+  console.log(AuthUser);
+  const id = AuthUser.id!;
+  dbUser = await prisma.user.findUnique({ where: { id } });
 
   if (!dbUser)
     dbUser = await prisma.user.create({
       data: {
+        id: AuthUser.id!,
         displayName: AuthUser.displayName,
         name: AuthUser.email!.split("@")[0],
         email: AuthUser.email!,
@@ -31,7 +33,7 @@ export const afterLogin: SSRPropGetter = async ({ AuthUser }) => {
 
   return {
     props: {
-      user: omit(dbUser, ["createdAt", "updatedAt"]),
+      user: omit(dbUser, ["id", "createdAt", "updatedAt"]),
     },
   };
 };

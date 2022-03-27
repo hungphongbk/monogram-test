@@ -12,11 +12,11 @@ model Post {
   content   String?
   author    User?   @relation(fields: [authorId], references: [id])
   createdAt     DateTime  @default(now())
-  authorId  Int?
+  authorId  String?
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
+  id            String   @id
   displayName   String?
   name          String
   email         String   @unique

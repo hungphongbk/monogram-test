@@ -9,7 +9,7 @@ export default withAuthUserTokenAPI(async function doFollow(req, res) {
     },
     data: {
       following: {
-        connect: [
+        disconnect: [
           {
             id: followingId,
           },
@@ -23,7 +23,7 @@ export default withAuthUserTokenAPI(async function doFollow(req, res) {
     },
     data: {
       followedBy: {
-        connect: [
+        disconnect: [
           {
             id: req.User!.id,
           },

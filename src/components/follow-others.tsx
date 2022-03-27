@@ -19,13 +19,16 @@ export default function FollowOthers(props: FollowOthersProps): JSX.Element {
 
   const doFollow = useCallback(
     async (user: UserWithFollow) => {
-      await fetch("/api/follow/do-follow", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: user.id }),
-      });
+      await fetch(
+        user.followByMe ? "/api/follow/do-unfollow" : "/api/follow/do-follow",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: user.id }),
+        }
+      );
       await mutate("/api/follow/others");
     },
     [mutate]

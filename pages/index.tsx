@@ -12,18 +12,15 @@ import useSWR, { useSWRConfig } from "swr";
 import { useAuthContext } from "../src/utils/authContext";
 import { Post, User } from "@prisma/client";
 import Avatar from "../src/components/avatar";
+import { format } from "date-fns";
 
 type PostDto = Post & { author: User };
-const fetcher = (url: string, token: string): Promise<PostDto[]> =>
-  fetch(url, {
-    headers: {
-      Authorization: token,
-    },
-  }).then((r) => r.json());
+const fetcher = (url: string): Promise<PostDto[]> =>
+  fetch(url).then((r) => r.json());
 
 const Home = () => {
   const user = useAuthContext();
-  const { data } = useSWR(["/api/post", user.idToken], fetcher);
+  const { data } = useSWR("/api/post", fetcher);
   const { mutate } = useSWRConfig();
   return (
     <MainLayout>
@@ -43,6 +40,9 @@ const Home = () => {
                     <span className="text-sm text-gray-500">
                       @{post.author.name}
                     </span>
+                    <span className="text-sm text-gray-500 ml-1.5">
+                      • {format(new Date(post.createdAt), "MMM d, yyyy")}
+                    </span>
                   </div>
                   <div className="text-sm text-gray-500">{post.content}</div>
                 </div>
@@ -50,7 +50,12 @@ const Home = () => {
             ))}
           </div>
         </div>
-        <FollowOthers />
+        <div>
+          <h3 className="text-lg font-extrabold text-gray-700">
+            Follow Others
+          </h3>
+          <FollowOthers onFollowed={async () => await mutate("/api/post")} />
+        </div>
       </div>
     </MainLayout>
   );

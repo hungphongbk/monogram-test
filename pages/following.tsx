@@ -4,6 +4,7 @@ import {
   withAuthUser,
   withAuthUserTokenSSR,
 } from "next-firebase-auth";
+import FollowOthers from "../src/components/follow-others";
 
 const FollowingPage = () => {
   return (
@@ -11,6 +12,7 @@ const FollowingPage = () => {
       <h1 className="text-2xl font-extrabold text-gray-700">
         People you follow
       </h1>
+      <FollowOthers columns={2} className="gap-x-10" />
     </MainLayout>
   );
 };

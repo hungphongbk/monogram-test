@@ -27,5 +27,10 @@ export const users: Prisma.UserCreateInput[] = [
     idToken: "3",
     image:
       "http://dashboards.webkom.co/jquery/airframe/assets/img/avatars/20.jpg",
+    posts: {
+      createMany: {
+        data: [{ content: "Lí do anh người yêu tôi trầm cảm mỗi đêm =))" }],
+      },
+    },
   },
 ];

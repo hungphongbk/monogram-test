@@ -9,10 +9,21 @@ const getIndexPosts = async (
   req: AuthenticatedNextApiRequest,
   res: NextApiResponse
 ) => {
+  const following = await prisma.user.findFirst({
+    where: { id: req.User!.id! },
+    select: { following: { select: { id: true } } },
+  });
   return res.json(
     await prisma.post.findMany({
       where: {
-        author: { id: req.User!.id! },
+        author: {
+          id: {
+            in: [
+              ...(following?.following.map((user) => user.id) ?? []),
+              req.User!.id!,
+            ],
+          },
+        },
       },
       include: { author: true },
       orderBy: { createdAt: "desc" },

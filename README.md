@@ -4,6 +4,9 @@ with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/
 ## Techstack used on Monogram test
 
 - Next.js with Typescript, authenticated built on top of `next-firebase-auth`
+- `react-hook-form` for form management (used in `Profile` page)
+- `swr` for automatically invalidate API calls. This is also the first time I worked with it, more familiar with GraphQL
+  & ApolloClient which automate it already
 - TailwindCSS with `scss`
 - Built-in lints and code-formatters scaffolded by `create-next-app`
 - Hosted on `Vercel`
